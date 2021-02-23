@@ -281,12 +281,14 @@ public class Interfaz extends javax.swing.JFrame {
 	    if (response == -1){
                 mess.enviaMensaje("<"+puerto+">"+"Archivo "+nombre+" no localizado.\n");
             }else{
+                //Regresa los parametros del nodo donde está el archivo
                 for (int i = 0; i < nodos.size(); i++){
                     if (nodos.get(i).getPuerto()==response){
                         host=nodos.get(i).getIp();
                         break;
                     }
                 }
+                //Conexion al servidor de flujo
                 Socket cl = new Socket(host, response+100);
                 
                 DataOutputStream dos = new DataOutputStream(cl.getOutputStream());
@@ -299,6 +301,7 @@ public class Interfaz extends javax.swing.JFrame {
                 int recibidos = 0, porcentaje, aux=10;
                 int bitRes = numByte;
                 byte[] b = new byte[numByte];
+                //REcibimos el archivo
                 while(recibidos < tam){
                     if ((tam-recibidos) < numByte){
                         bitRes = (int)(tam-recibidos);
@@ -347,7 +350,7 @@ public class Interfaz extends javax.swing.JFrame {
     * la lista de nodos en la interfaz
     */
     private void actualizarMulticast() throws IOException{
-        Mensaje mensaje = ServidorMulticast.getInstance().recibe();
+        Mensaje mensaje = ServidorMulticast.getInstance().recibe();//Obtenemos 
         
         if(mensaje.getNombreOrigen() != null){
             switch (mensaje.getId()) {
